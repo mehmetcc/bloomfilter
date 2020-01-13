@@ -7,6 +7,10 @@ TODO implement more concise approach for hash value slicing
 
 
 class BloomFilter:
+    """
+    Bloom Filter
+    An abstraction based on bfilter.BitArray class for querying and referencing
+    """
 
     def __init__(self, size: int, *hash_functions: List[Callable[[str], int]]) -> None:
         self.bit_array = BitArray(size*10)
@@ -17,13 +21,10 @@ class BloomFilter:
         self.found = 0
 
     def add_from_list(self, substring_list: List[str]) -> None:
-        length = len(substring_list)
-
         for substring in substring_list:
             self.add(substring)
 
     def add(self, substring) -> None:
-
         for hash_function in self.hash_functions:
             self._add(hash_function, substring)
 
@@ -39,14 +40,12 @@ class BloomFilter:
         # print('Debug - {} with hash value {}'.format(hash_function.__str__(), hval))
 
     def check_from_list(self, substring_list: List[str]) -> None:
-        length = len(substring_list)
-
         for substring in substring_list:
             self.check(substring)
 
     def check(self, substring: str) -> None:
-
         all_check = True
+
         for hash_function in self.hash_functions:
             check = self._check(hash_function, substring)
 
